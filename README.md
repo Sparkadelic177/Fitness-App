@@ -1,7 +1,7 @@
 # Fitness-App
 A simple fitness app for Android
 
-- [ ] 1. Support different users with user credentials (username and password)
+- [x] 1. Support different users with user credentials (username and password)
 - [ ] 2. Get and store locally the distance walked
 - [ ] 3. Feedback on achieving milestones (multiples of 1000 feet)
 - [ ] 4. Whenever the person is at office, periodic reminder to stand up and walk every 1 hour.
