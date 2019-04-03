@@ -30,4 +30,5 @@ dependencies {
     implementation 'com.parse.bolts:bolts-android:1.4.0'
     implementation 'com.github.parse-community.Parse-SDK-Android:parse:1.18.5'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.android.support:design:28.0.0'
 }
