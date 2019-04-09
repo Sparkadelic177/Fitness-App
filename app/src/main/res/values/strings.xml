@@ -6,4 +6,10 @@
     <string name="button">Button</string>
     <string name="signup">Signup</string>
     <string name="email">Email</string>
+    <string name="_0">0</string>
+    <string name="logout">Logout</string>
+    <string name="set_work_location">Set Work Location</string>
+    <string name="steps">Steps</string>
+    <string name="tweet">Tweet</string>
+    <string name="reset_location">Reset Location</string>
 </resources>

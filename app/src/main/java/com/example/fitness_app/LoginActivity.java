@@ -28,9 +28,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         gotoSignup = new Intent(this, SignupActivity.class);
         gotoMain = new Intent(this, MainActivity.class);
+
+        //saves the users session data
+        if(ParseUser.getCurrentUser() != null){
+            startActivity(gotoMain);
+            finish();
+        }
+
 
         //referencing all the icons
         icon = findViewById(R.id.ivWalkLogo);

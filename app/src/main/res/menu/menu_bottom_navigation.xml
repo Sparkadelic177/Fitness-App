@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/mSteps"
+        android:icon="@drawable/ic_walk"
+        android:title="Steps"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/mCompetition"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Competition"
+        app:showAsAction="always" />
+</menu>
