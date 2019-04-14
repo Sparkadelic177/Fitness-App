@@ -1,9 +1,11 @@
 package com.example.fitness_app.Fragments;
 
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,6 +20,7 @@ import com.example.fitness_app.MainActivity;
 import com.example.fitness_app.R;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -31,17 +34,25 @@ import cz.msebera.android.httpclient.Header;
 
 public class StepsFramgment extends Fragment {
 
+    private static final String ANDROID_CHANNEL_ID = "dataCubed.Android";
     TextView tvCounter;
     Button btnWorkLocation;
     Button btnResetLocation;
     Button btnTweet;
 
     String location = "";
+    String stepData;
     AsyncHttpClient client;
     final String TAG = "SPLAT";
 
-    MainActivity sensor = new MainActivity();
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            stepData = getArguments().getString("stepData");
+        }
+    }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
@@ -59,18 +70,19 @@ public class StepsFramgment extends Fragment {
         getLocation();
         atWork();
 
+
         tvCounter = view.findViewById(R.id.tvCounter);
         btnWorkLocation = view.findViewById(R.id.btnWorkLocation);
         btnResetLocation = view.findViewById(R.id.btnResetLocation);
-        btnTweet = view.findViewById(R.id.btnTweet);
         ParseUser user = new ParseUser();
+
 
         if(user.getString("worklocation") == null){
 
         }
 
-//        need to get the steps from the main activity();
-        tvCounter.setText(sensor.getSteps());
+//       need to get the steps from the main activity();
+        tvCounter.setText(stepData);
 
         tvCounter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -103,7 +115,6 @@ public class StepsFramgment extends Fragment {
             }
         });
 
-
     }
 
     //for every step that is a multiple of 1000 it would say congrats
@@ -117,8 +128,8 @@ public class StepsFramgment extends Fragment {
 
 
     public void getLocation(){
-        client = new AsyncHttpClient();
 
+        client = new AsyncHttpClient();
         client.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBTJDZJhqV_jGVQfLcUrhwcsE8POe07i80", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -137,7 +148,7 @@ public class StepsFramgment extends Fragment {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("smile", errorResponse.toString());
+                Log.e("smile","error could not get the location");
             }
         });
     }
@@ -156,11 +167,10 @@ public class StepsFramgment extends Fragment {
                 btnWorkLocation.setBackgroundColor(getResources().getColor(R.color.gray));
                 btnResetLocation.setEnabled(true);
                 Toast.makeText(getContext(), "work location saved: " + location, Toast.LENGTH_LONG).show();
+                ((MainActivity) getActivity()).setUpAlarm();
             }
         });
     }
-
-
 
     //if at work then start a timer for every hour
     public void atWork(){
@@ -170,7 +180,7 @@ public class StepsFramgment extends Fragment {
         if(workLocation != null){
             if(workLocation.equals(location)){
                 //start timer
-                startTimer();
+                ((MainActivity) getActivity()).setUpAlarm();
             }
         }
         else{
@@ -181,24 +191,6 @@ public class StepsFramgment extends Fragment {
         }
 
     }
-
-    //starts the timer when the user is at work.
-    public void startTimer(){
-     Runnable runnable = new Runnable() {
-         @Override
-         public void run() {
-
-         }
-     };
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        startTimer();
-    }
-
-
 
 
 }
